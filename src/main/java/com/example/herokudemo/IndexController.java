@@ -21,43 +21,63 @@ public class IndexController {
     
     @GetMapping("/canalla")
     public String Comment() {
-        List<CanallaModel> canallas =  this.CanallaDB.findAll();
-        String listado = "";
-        for (CanallaModel canallaModel : canallas) {
-            listado += "<li>" + canallaModel.nombre + "</li>";
-        }
+        try
+        {
+            List<CanallaModel> canallas =  this.CanallaDB.findAll();
+            String listado = "";
+            for (CanallaModel canallaModel : canallas) {
+                listado += "<li>" + canallaModel.nombre + "</li>";
+            }
 
-        return "Los canallas son: <ul>" + listado + "</ul>";
+            return "Los canallas son: <ul>" + listado + "</ul>";
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
     }
     
     @GetMapping("/canalla/añadir")
     public String AddComment(String canalla) {
-
-        if (canalla != null) {
-            CanallaModel canallaModel = new CanallaModel();
-            canallaModel.nombre = canalla;
-            this.CanallaDB.insert(canallaModel);
-            return "Se ha añadido al canalla de " + canalla;
-        }
-        else
+        try
         {
-            return "No se ha añadido al canalla de " + canalla;
+            if (canalla != null) {
+                CanallaModel canallaModel = new CanallaModel();
+                canallaModel.nombre = canalla;
+                this.CanallaDB.insert(canallaModel);
+                return "Se ha añadido al canalla de " + canalla;
+            }
+            else
+            {
+                return "No se ha añadido al canalla de " + canalla;
+            }
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
         }
     }
     
     @GetMapping("/canalla/eliminar")
     public String DeleteComment(String canalla) {
-        CanallaModel canallaModel = new CanallaModel();
-        canallaModel.nombre = canalla;
-        List<CanallaModel> canallas = this.CanallaDB.findAll(Example.of(canallaModel));
+        try
+        {
+            CanallaModel canallaModel = new CanallaModel();
+            canallaModel.nombre = canalla;
+            List<CanallaModel> canallas = this.CanallaDB.findAll(Example.of(canallaModel));
 
-        if (canallas.size() > 0) {
-            canallaModel = (CanallaModel)canallas.toArray()[0];
-            this.CanallaDB.delete(canallaModel);
-            return "Se ha quitado al canalla de " + canallaModel.nombre;
+            if (canallas.size() > 0) {
+                canallaModel = (CanallaModel)canallas.toArray()[0];
+                this.CanallaDB.delete(canallaModel);
+                return "Se ha quitado al canalla de " + canallaModel.nombre;
+            }
+            else {
+                return "No se ha quitado al canalla de " + canallaModel.nombre + " porqué no estaba.";
+            }
         }
-        else {
-            return "No se ha quitado al canalla de " + canallaModel.nombre + " porqué no estaba.";
+        catch(Exception ex)
+        {
+            return ex.getMessage();
         }
     }
 }
