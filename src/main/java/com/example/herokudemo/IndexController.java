@@ -1,6 +1,12 @@
 package com.example.herokudemo;
 
 import java.util.List;
+
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
+
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,12 +16,25 @@ public class IndexController {
 
     private DataBase CanallaDB;
 
-    public IndexController(DataBase canallaDB){
-        this.CanallaDB = canallaDB;
+    public IndexController(){
     }
 
     @GetMapping("/")
     public String Index() {
+        try
+        {
+            MongoCredential mongoCredential = MongoCredential.createCredential("heroku_92g8hdl7", "heroku_92g8hdl7", "7CX3ZWs2927jc5n".toCharArray());
+            ServerAddress serverAddress = new ServerAddress("ds135413.mlab.com", 35413);
+            MongoClient client = new MongoClient(serverAddress, mongoCredential, MongoClientOptions.builder().build());
+            client.getAddress();
+            client.close();
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
+
+
         return "Bienvenido a canalla-app.";
     }    
     
