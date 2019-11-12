@@ -23,7 +23,7 @@ public class IndexController {
     public String Index() {
         try
         {
-            MongoCredential mongoCredential = MongoCredential.createCredential("heroku_92g8hdl7", "heroku_92g8hdl7", "7CX3ZWs2927jc5n".toCharArray());
+            MongoCredential mongoCredential = MongoCredential.createCredential("heroku_92g8hdl7", "canallaDB", "7CX3ZWs2927jc5n".toCharArray());
             ServerAddress serverAddress = new ServerAddress("ds135413.mlab.com", 35413);
             MongoClient client = new MongoClient(serverAddress, mongoCredential, MongoClientOptions.builder().build());
             client.getAddress();
