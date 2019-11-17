@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class WebudoModel{
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer id;
 
     public String nombre;
