@@ -16,11 +16,11 @@ public class IndexController {
 
     @GetMapping("/")
     public String Index() {
-        return "Bienvenido a canalla-app.";
+        return "Bienvenid@! <p><a href=\"/canalla\">Entra en canalla-app.</a></p> <p><p><a href=\"/webudo\">Entra en webudo-app.</a></p>";
     }    
     
     @GetMapping("/canalla")
-    public String Comment() {
+    public String ListCanalla() {
         try
         {
             List<CanallaModel> canallas =  this.CanallaDB.findAll();
@@ -38,7 +38,7 @@ public class IndexController {
     }
     
     @GetMapping("/canalla/añadir")
-    public String AddComment(String canalla) {
+    public String AddCanalla(String canalla) {
         try
         {
             if (canalla != null) {
@@ -59,7 +59,7 @@ public class IndexController {
     }
     
     @GetMapping("/canalla/eliminar")
-    public String DeleteComment(String canalla) {
+    public String DeleteCanalla(String canalla) {
         try
         {
             CanallaModel canallaModel = new CanallaModel();
@@ -73,6 +73,68 @@ public class IndexController {
             }
             else {
                 return "No se ha quitado al canalla de " + canallaModel.nombre + " porqué no estaba.";
+            }
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
+    }
+
+    @GetMapping("/webudo")
+    public String ListWebudo() {
+        try
+        {
+            List<WebudoModel> webudos =  this.CanallaDB.findAll();
+            String listado = "";
+            for (WebudoModel WeboModel : webudos) {
+                listado += "<li>" + WeboModel.nombre + "</li>";
+            }
+
+            return "Los webones son: <ul>" + listado + "</ul>";
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
+    }
+
+    @GetMapping("/webudo/añadir")
+    public String AddWebudo(String webudo) {
+        try
+        {
+            if (webudo != null) {
+                WebudoModel webudoModel = new WebudoModel();
+                webudoModel.nombre = webudo;
+                this.CanallaDB.insert(webudoModel);
+                return "Se ha añadido al webudo de " + webudo;
+            }
+            else
+            {
+                return "No se ha añadido al webudo de " + webudo;
+            }
+        }
+        catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
+    }
+    
+    @GetMapping("/webudo/eliminar")
+    public String DeleteWebudo(String canalla) {
+        try
+        {
+            WebudoModel webudoModel= new WebudoModel();
+            webudoModel.nombre = canalla;
+            List<CanallaModel> canallas = this.CanallaDB.findAll(Example.of(webudoModel));
+
+            if (canallas.size() > 0) {
+                webudoModel = (WebudoModel)canallas.toArray()[0];
+                this.CanallaDB.delete(webudoModel);
+                return "Se ha quitado al webudo de " + webudoModel.nombre;
+            }
+            else {
+                return "No se ha quitado al webudo de " + webudoModel.nombre + " porqué no estaba.";
             }
         }
         catch(Exception ex)
