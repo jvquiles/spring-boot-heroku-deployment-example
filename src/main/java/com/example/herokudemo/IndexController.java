@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
 
     private DataBase CanallaDB;
+    private WebudoRepository WebudoRepository;
 
-    public IndexController(DataBase canallaDB){
+    public IndexController(DataBase canallaDB, WebudoRepository webudoRepository){
         this.CanallaDB = canallaDB;
+        this.WebudoRepository = webudoRepository;
     }
 
     @GetMapping("/")
@@ -85,7 +87,7 @@ public class IndexController {
     public String ListWebudo() {
         try
         {
-            List<WebudoModel> webudos =  this.CanallaDB.findAll();
+            List<WebudoModel> webudos =  this.WebudoRepository.findAll();
             String listado = "";
             for (WebudoModel WeboModel : webudos) {
                 listado += "<li>" + WeboModel.nombre + "</li>";
@@ -106,7 +108,7 @@ public class IndexController {
             if (webudo != null) {
                 WebudoModel webudoModel = new WebudoModel();
                 webudoModel.nombre = webudo;
-                this.CanallaDB.insert(webudoModel);
+                this.WebudoRepository.save(webudoModel);
                 return "Se ha añadido al webudo de " + webudo;
             }
             else
@@ -126,11 +128,11 @@ public class IndexController {
         {
             WebudoModel webudoModel= new WebudoModel();
             webudoModel.nombre = canalla;
-            List<CanallaModel> canallas = this.CanallaDB.findAll(Example.of(webudoModel));
+            List<WebudoModel> webudos = this.WebudoRepository.findAll(Example.of(webudoModel));
 
-            if (canallas.size() > 0) {
-                webudoModel = (WebudoModel)canallas.toArray()[0];
-                this.CanallaDB.delete(webudoModel);
+            if (webudos.size() > 0) {
+                webudoModel = (WebudoModel)webudos.toArray()[0];
+                this.WebudoRepository.delete(webudoModel);
                 return "Se ha quitado al webudo de " + webudoModel.nombre;
             }
             else {

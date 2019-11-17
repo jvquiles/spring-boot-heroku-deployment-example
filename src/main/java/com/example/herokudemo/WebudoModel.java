@@ -1,13 +1,8 @@
 package com.example.herokudemo;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import javax.persistence.*;
 
-@Document
+@Entity
 public class WebudoModel{
-    @Id
-    public ObjectId _id;
-    
-	public String nombre;
+    public String nombre;
 }
