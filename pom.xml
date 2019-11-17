@@ -41,9 +41,10 @@
         </dependency>
 
 		<dependency>
-			<groupId>com.heroku.sdk</groupId>
-			<artifactId>heroku-jdbc</artifactId>
-			<version>0.1.0</version>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.32</version>
+			<scope>provided</scope>
 		</dependency>
 				
 		<dependency>
