@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class WebudoModel{
     @Id
-    public Integer Id;
+    public Integer id;
 
     public String nombre;
 }
